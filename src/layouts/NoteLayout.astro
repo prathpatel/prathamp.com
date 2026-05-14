@@ -13,7 +13,13 @@ interface Props {
 const { frontmatter } = Astro.props;
 ---
 
-<BaseLayout title={frontmatter.title} type="article" showScrollProgress={true}>
+<BaseLayout
+  title={frontmatter.title}
+  type="article"
+  showScrollProgress={true}
+  publishedTime={frontmatter.date}
+  tags={frontmatter.topic ? [frontmatter.topic] : undefined}
+>
   <article class="max-w-3xl mx-auto px-4 py-16">
     <header class="mb-8">
       <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
