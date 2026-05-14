@@ -34,6 +34,8 @@ const ogImage = `/og/blog/${slug}.png`;
   type="article"
   image={ogImage}
   showScrollProgress={true}
+  publishedTime={frontmatter.date}
+  tags={frontmatter.tags}
 >
   <div class="max-w-6xl mx-auto px-4 py-16 overflow-x-clip lg:grid lg:grid-cols-[1fr_220px] lg:gap-12">
     <article class="min-w-0">
