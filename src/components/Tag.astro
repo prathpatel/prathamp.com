@@ -9,23 +9,19 @@ interface Props {
 const { name, size = "md", asLink = true, basePath = "/tags" } = Astro.props;
 
 const sizeClasses = {
-  sm: "text-xs px-2 py-0.5",
-  md: "text-sm px-2.5 py-1",
+  sm: "text-xs",
+  md: "text-sm",
 };
 
-const baseClasses = "inline-block font-mono lowercase rounded-md border border-gray-200 bg-gray-100/80 text-gray-600 transition-colors dark:border-gray-700 dark:bg-gray-800/80 dark:text-gray-400";
-const hoverClasses = asLink ? "hover:border-primary-300 hover:bg-primary-50 hover:text-primary-700 dark:hover:border-primary-700 dark:hover:bg-primary-950 dark:hover:text-primary-300" : "";
+const baseClasses = "inline-block italic text-gray-500 dark:text-gray-400 transition-colors";
+const hoverClasses = asLink ? "hover:text-primary-600 dark:hover:text-primary-400 hover:underline underline-offset-2" : "";
 ---
 
 {asLink ? (
   <a
     href={`${basePath}/${name.toLowerCase()}`}
     class:list={[baseClasses, hoverClasses, sizeClasses[size]]}
-  >
-    {name}
-  </a>
+  >[{name}]</a>
 ) : (
-  <span class:list={[baseClasses, sizeClasses[size]]}>
-    {name}
-  </span>
+  <span class:list={[baseClasses, sizeClasses[size]]}>[{name}]</span>
 )}

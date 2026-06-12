@@ -2,50 +2,50 @@
 import { siteConfig } from "../config/site";
 
 const socials = [
-  { name: "github", href: `https://github.com/${siteConfig.author.github}` },
-  { name: "linkedin", href: `https://linkedin.com/in/${siteConfig.author.linkedin}` },
-  { name: "twitter", href: `https://twitter.com/${siteConfig.author.twitter}` },
+  { name: "GitHub", href: `https://github.com/${siteConfig.author.github}` },
+  { name: "LinkedIn", href: `https://linkedin.com/in/${siteConfig.author.linkedin}` },
+  { name: "Twitter", href: `https://twitter.com/${siteConfig.author.twitter}` },
 ];
 ---
 
-<footer class="mt-12 border-t-2 border-gray-900 dark:border-gray-100 bg-gray-50 dark:bg-gray-950">
-  <div class="max-w-6xl mx-auto px-4 py-16 md:py-24">
-    <p class="font-mono text-sm text-primary-600 dark:text-primary-400 mb-6">— let's talk</p>
+<footer class="mt-16 border-t-3 border-double border-gray-900 dark:border-gray-100 bg-white dark:bg-gray-950">
+  <div class="max-w-5xl mx-auto px-4 py-12 md:py-16 text-center">
+    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Correspondence</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-1">
+      All inquiries should be addressed to
+    </p>
     <a
       href={`mailto:${siteConfig.author.email}`}
-      class="group inline-block font-display font-bold uppercase tracking-tighter leading-[0.95] text-[clamp(2.75rem,9vw,7rem)] text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+      class="text-xl md:text-2xl font-semibold text-primary-600 dark:text-primary-400 hover:underline underline-offset-4"
     >
-      Get in touch<span class="inline-block transition-transform duration-300 group-hover:translate-x-3 group-hover:-translate-y-2">&#8599;</span>
+      {siteConfig.author.email}
     </a>
-    <p class="mt-6 font-mono text-sm text-gray-500 dark:text-gray-400">
-      <a href={`mailto:${siteConfig.author.email}`} class="underline underline-offset-4 decoration-gray-300 dark:decoration-gray-700 hover:text-primary-600 dark:hover:text-primary-400 hover:decoration-current transition-colors">
-        {siteConfig.author.email}
-      </a>
-    </p>
 
-    <div class="mt-16 md:mt-20 pt-8 border-t border-gray-200 dark:border-gray-800 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-      <nav class="flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-widest">
-        {siteConfig.nav.map((item) => (
-          <a href={item.href} class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-            {item.name}
-          </a>
-        ))}
-      </nav>
-      <div class="flex gap-x-6 font-mono text-xs uppercase tracking-widest">
-        {socials.map((s) => (
+    <div class="mt-8 flex flex-wrap justify-center gap-x-2 text-sm text-gray-600 dark:text-gray-400">
+      {socials.map((s, i) => (
+        <span>
           <a
             href={s.href}
             target="_blank"
             rel="noopener noreferrer"
-            class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-          >
-            {s.name}&#8599;
-          </a>
-        ))}
-      </div>
+            class="text-primary-600 dark:text-primary-400 hover:underline underline-offset-2"
+          >{s.name}&#8599;</a>{i < socials.length - 1 && <span aria-hidden="true"> ·</span>}
+        </span>
+      ))}
     </div>
-    <p class="mt-8 font-mono text-xs text-gray-400 dark:text-gray-600">
-      &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+
+    <nav class="mt-6 flex flex-wrap justify-center gap-x-2 text-sm italic text-gray-500 dark:text-gray-400">
+      {siteConfig.nav.map((item, i) => (
+        <span>
+          <a href={item.href} class="hover:text-primary-600 dark:hover:text-primary-400 hover:underline underline-offset-2">
+            {item.name}
+          </a>{i < siteConfig.nav.length - 1 && <span aria-hidden="true"> ·</span>}
+        </span>
+      ))}
+    </nav>
+
+    <p class="mt-10 text-xs text-gray-400 dark:text-gray-600">
+      &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved. Typeset in STIX Two, after LaTeX.
     </p>
   </div>
 </footer>

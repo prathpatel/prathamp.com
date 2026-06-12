@@ -16,86 +16,82 @@ const latestPosts = (await getCollection("blog"))
 ---
 
 <BaseLayout>
-  <!-- Hero -->
-  <section class="max-w-6xl mx-auto px-4 pt-16 md:pt-24">
-    <div class="flex items-center gap-2.5 font-mono text-xs md:text-sm text-gray-600 dark:text-gray-400 mb-8 md:mb-10">
-      <span class="relative flex h-2 w-2">
-        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-        <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
-      </span>
-      open to opportunities — ahmedabad, india
-    </div>
-    <h1 class="font-display font-bold uppercase tracking-tighter leading-[0.9] text-gray-900 dark:text-white text-[clamp(3.5rem,13vw,10rem)]">
-      Pratham<br />Patel<span class="text-primary-600 dark:text-primary-400">.</span>
+  <!-- Title block -->
+  <section class="max-w-3xl mx-auto px-4 pt-14 md:pt-20 text-center">
+    <p class="text-sm italic text-primary-600 dark:text-primary-400 mb-8">
+      Preprint &middot; Open to opportunities
+    </p>
+    <h1 class="text-3xl md:text-[2.75rem] font-bold leading-tight md:leading-[1.2] text-gray-900 dark:text-white [text-wrap:balance]">
+      Shipping Production Machine Learning: NLP&nbsp;Pipelines, Computer Vision &amp; Cloud&#8209;Native AI&nbsp;Systems
     </h1>
-    <div class="mt-10 md:mt-16 grid gap-6 md:gap-8 md:grid-cols-12 border-t-2 border-gray-900 dark:border-gray-100 pt-8 md:pt-10">
-      <div class="md:col-span-4 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 leading-loose">
-        Data Scientist<br />
-        ML · NLP · Computer Vision<br />
-        AWS · EKS · Docker
-      </div>
-      <p class="md:col-span-8 text-xl md:text-2xl leading-relaxed text-gray-700 dark:text-gray-300">
-        2+ years of experience shipping production ML systems, NLP pipelines, and computer vision solutions on cloud-native infrastructure. I translate business problems into deployed AI products — and mentor the next generation of engineers along the way.
-      </p>
-    </div>
+    <p class="mt-7 text-lg text-gray-900 dark:text-gray-100">
+      Pratham Patel<sup class="text-primary-600 dark:text-primary-400">1</sup>
+    </p>
+    <p class="mt-1.5 text-sm text-gray-500 dark:text-gray-400">
+      <sup>1</sup>&thinsp;Data Scientist, Ahmedabad, India &middot;
+      <a href="mailto:prathammpatel@outlook.com" class="text-primary-600 dark:text-primary-400 hover:underline underline-offset-2">prathammpatel@outlook.com</a>
+    </p>
   </section>
 
-  <!-- Selected Work -->
+  <!-- Abstract -->
+  <section class="max-w-2xl mx-auto px-4 mt-12">
+    <h2 class="text-center text-base font-bold text-gray-900 dark:text-white mb-3">Abstract</h2>
+    <p class="text-justify [hyphens:auto] leading-relaxed text-gray-800 dark:text-gray-200">
+      Data Scientist with 2+ years of experience shipping production ML systems, NLP pipelines, and computer vision solutions on cloud-native infrastructure (AWS, EKS, Docker). This work demonstrates the translation of business problems into deployed AI products — including an enterprise no-code ML platform, AI meeting intelligence, and manufacturing defect detection — while mentoring the next generation of engineers along the way.
+    </p>
+    <p class="mt-4 text-sm text-gray-700 dark:text-gray-300">
+      <span class="font-bold">Keywords:</span>
+      <em>machine learning, NLP, computer vision, time series forecasting, AWS, mentorship</em>
+    </p>
+  </section>
+
+  <!-- 1. Selected Work -->
   {featuredProjects.length > 0 && (
-    <section class="max-w-6xl mx-auto px-4 pt-20 md:pt-32">
-      <div class="flex items-baseline justify-between pb-4 border-b-2 border-gray-900 dark:border-gray-100">
-        <h2 class="font-display text-3xl md:text-5xl font-bold uppercase tracking-tight text-gray-900 dark:text-white">
-          Selected Work
-        </h2>
-        <span class="font-mono text-sm text-primary-600 dark:text-primary-400">(01)</span>
-      </div>
-      <div>
+    <section class="max-w-3xl mx-auto px-4 mt-14 md:mt-20">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+        <span class="mr-4">1</span>Selected Work
+      </h2>
+      <div class="divide-y divide-gray-200 dark:divide-gray-800">
         {featuredProjects.map((project, i) => (
           <ProjectRow
             title={project.data.title}
             description={project.data.description}
             tech={project.data.tech}
             slug={project.slug}
-            index={String(i + 1).padStart(2, "0")}
+            index={`1.${i + 1}`}
           />
         ))}
       </div>
-      <a
-        href="/projects"
-        class="group flex items-center justify-between py-6 font-mono text-sm uppercase tracking-widest text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-      >
-        all projects
-        <span class="inline-block transition-transform group-hover:translate-x-2">&rarr;</span>
-      </a>
+      <p class="mt-4 text-sm italic">
+        <a href="/projects" class="text-primary-600 dark:text-primary-400 hover:underline underline-offset-2">
+          See all projects &rarr;
+        </a>
+      </p>
     </section>
   )}
 
-  <!-- Writing -->
+  <!-- 2. Writing -->
   {latestPosts.length > 0 && (
-    <section class="max-w-6xl mx-auto px-4 pt-20 md:pt-32 pb-20 md:pb-32">
-      <div class="flex items-baseline justify-between pb-4 border-b-2 border-gray-900 dark:border-gray-100">
-        <h2 class="font-display text-3xl md:text-5xl font-bold uppercase tracking-tight text-gray-900 dark:text-white">
-          Writing
-        </h2>
-        <span class="font-mono text-sm text-primary-600 dark:text-primary-400">(02)</span>
-      </div>
+    <section class="max-w-3xl mx-auto px-4 mt-14 md:mt-20 pb-8">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+        <span class="mr-4">2</span>Writing
+      </h2>
       <div>
-        {latestPosts.map((post) => (
+        {latestPosts.map((post, i) => (
           <PostRow
             title={post.data.title}
             date={post.data.date}
             slug={post.slug}
             tags={post.data.tags}
+            refIndex={i + 1}
           />
         ))}
       </div>
-      <a
-        href="/blog"
-        class="group flex items-center justify-between py-6 font-mono text-sm uppercase tracking-widest text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-      >
-        all writing
-        <span class="inline-block transition-transform group-hover:translate-x-2">&rarr;</span>
-      </a>
+      <p class="mt-4 text-sm italic">
+        <a href="/blog" class="text-primary-600 dark:text-primary-400 hover:underline underline-offset-2">
+          Full bibliography &rarr;
+        </a>
+      </p>
     </section>
   )}
 </BaseLayout>

@@ -9,22 +9,23 @@ const posts = (await getCollection("blog"))
 ---
 
 <BaseLayout title="Blog" description="Thoughts, tutorials, and insights on software development.">
-  <section class="max-w-6xl mx-auto px-4 pt-16 md:pt-24 pb-16">
-    <p class="font-mono text-sm text-primary-600 dark:text-primary-400 mb-4">(02) — writing</p>
-    <h1 class="font-display font-bold uppercase tracking-tighter leading-none text-gray-900 dark:text-white text-5xl md:text-8xl mb-6">
-      Writing<span class="text-primary-600 dark:text-primary-400">.</span>
+  <section class="max-w-3xl mx-auto px-4 pt-14 md:pt-20 pb-12">
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
+      <span class="mr-4">2</span>Writing
     </h1>
-    <p class="text-xl text-gray-600 dark:text-gray-400 mb-12 md:mb-16 max-w-2xl">
+    <p class="italic text-gray-600 dark:text-gray-400 mb-8 max-w-2xl">
       Breaking down research papers, deriving ideas from scratch, and making complex topics intuitive.
     </p>
 
-    <div class="border-t-2 border-gray-900 dark:border-gray-100">
-      {posts.map((post) => (
+    <h2 class="text-lg font-bold text-gray-900 dark:text-white border-b border-gray-900 dark:border-gray-100 pb-2 mb-3">References</h2>
+    <div>
+      {posts.map((post, i) => (
         <PostRow
           title={post.data.title}
           date={post.data.date}
           slug={post.slug}
           tags={post.data.tags}
+          refIndex={i + 1}
         />
       ))}
     </div>

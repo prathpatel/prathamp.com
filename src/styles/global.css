@@ -4,35 +4,36 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Space Grotesk", system-ui, sans-serif;
-  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-sans: "STIX Two Text", "Times New Roman", Georgia, serif;
+  --font-display: "STIX Two Text", "Times New Roman", Georgia, serif;
+  --font-serif: "STIX Two Text", "Times New Roman", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  /* Warm neutrals (stone) mapped onto the gray scale used site-wide */
-  --color-gray-50: #fafaf9;
-  --color-gray-100: #f5f5f4;
-  --color-gray-200: #e7e5e4;
-  --color-gray-300: #d6d3d1;
-  --color-gray-400: #a8a29e;
-  --color-gray-500: #78716c;
-  --color-gray-600: #57534e;
-  --color-gray-700: #44403c;
-  --color-gray-800: #292524;
-  --color-gray-900: #1c1917;
-  --color-gray-950: #0c0a09;
+  /* Print neutrals — pure paper grays */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e5e5e5;
+  --color-gray-300: #d4d4d4;
+  --color-gray-400: #a3a3a3;
+  --color-gray-500: #737373;
+  --color-gray-600: #525252;
+  --color-gray-700: #404040;
+  --color-gray-800: #262626;
+  --color-gray-900: #171717;
+  --color-gray-950: #0f0f0f;
 
-  /* Ember accent — shifted darker so primary-600 holds white text */
-  --color-primary-50: #fff7ed;
-  --color-primary-100: #ffedd5;
-  --color-primary-200: #fed7aa;
-  --color-primary-300: #fdba74;
-  --color-primary-400: #fb923c;
-  --color-primary-500: #f97316;
-  --color-primary-600: #c2410c;
-  --color-primary-700: #9a3412;
-  --color-primary-800: #7c2d12;
-  --color-primary-900: #621f0d;
-  --color-primary-950: #3b1106;
+  /* arXiv red — hyperlink/accent color of the genre */
+  --color-primary-50: #fdf3f3;
+  --color-primary-100: #fbe5e5;
+  --color-primary-200: #f5c9c9;
+  --color-primary-300: #eba3a3;
+  --color-primary-400: #d96666;
+  --color-primary-500: #c43c3c;
+  --color-primary-600: #b31b1b;
+  --color-primary-700: #8f1616;
+  --color-primary-800: #6d1111;
+  --color-primary-900: #4f0d0d;
+  --color-primary-950: #2d0606;
 }
 
 @layer base {
@@ -44,7 +45,7 @@
   }
 
   body {
-    @apply bg-gray-50 text-gray-900 antialiased;
+    @apply bg-white text-gray-900 antialiased;
     @apply dark:bg-gray-950 dark:text-gray-100;
     max-width: 100%;
     overflow-x: hidden;
@@ -64,7 +65,16 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    letter-spacing: -0.015em;
+  }
+
+  /* LaTeX-style justified body text in articles */
+  .prose p {
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .prose :where(pre, code) p {
+    text-align: left;
   }
 
   :focus-visible {

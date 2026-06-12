@@ -37,29 +37,33 @@ const ogImage = `/og/blog/${slug}.png`;
   publishedTime={frontmatter.date}
   tags={frontmatter.tags}
 >
-  <div class="max-w-6xl mx-auto px-4 py-16 overflow-x-clip lg:grid lg:grid-cols-[1fr_220px] lg:gap-12">
+  <div class="max-w-5xl mx-auto px-4 py-14 overflow-x-clip lg:grid lg:grid-cols-[1fr_220px] lg:gap-12">
     <article class="min-w-0">
-    <header class="mb-12 pb-8 border-b-2 border-gray-900 dark:border-gray-100">
-      <div class="flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-5">
-        <time datetime={frontmatter.date.toISOString()}>
-          {formatDate(frontmatter.date)}
-        </time>
-        <span aria-hidden="true">&middot;</span>
-        <span>{readingTime(body)} min read</span>
-      </div>
-      <h1 class="font-display text-4xl md:text-6xl font-bold tracking-tighter text-gray-900 dark:text-white mb-5 break-words [overflow-wrap:anywhere]">
+    <header class="mb-10 text-center">
+      <h1 class="text-3xl md:text-4xl font-bold leading-tight text-gray-900 dark:text-white break-words [overflow-wrap:anywhere] [text-wrap:balance]">
         {frontmatter.title}
       </h1>
-      <p class="text-xl text-gray-600 dark:text-gray-400 mb-6 break-words [overflow-wrap:anywhere]">{frontmatter.description}</p>
+      <p class="mt-5 text-lg text-gray-900 dark:text-gray-100">Pratham Patel</p>
+      <p class="mt-1 text-sm italic text-gray-500 dark:text-gray-400">
+        <time datetime={frontmatter.date.toISOString()}>{formatDate(frontmatter.date)}</time>
+        <span aria-hidden="true"> &middot; </span>
+        {readingTime(body)} min read
+      </p>
+      <div class="mt-7 mx-auto max-w-xl text-left">
+        <p class="text-justify [hyphens:auto] leading-relaxed text-gray-800 dark:text-gray-200 break-words [overflow-wrap:anywhere]">
+          <span class="font-bold">Abstract.</span> {frontmatter.description}
+        </p>
+      </div>
       {
         frontmatter.tags && (
-          <div class="flex flex-wrap gap-2">
+          <div class="mt-4 flex flex-wrap justify-center gap-x-2 gap-y-1">
             {frontmatter.tags.map((tag) => (
-              <Tag name={tag} />
+              <Tag name={tag} size="sm" />
             ))}
           </div>
         )
       }
+      <div class="mt-8 border-b border-gray-900 dark:border-gray-100" aria-hidden="true"></div>
     </header>
     <div
       class="prose prose-lg prose-gray dark:prose-invert max-w-none prose-headings:font-semibold prose-a:text-primary-600 dark:prose-a:text-primary-400 hover:prose-a:text-primary-700 prose-code:text-primary-700 dark:prose-code:text-primary-300 prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gray-900"

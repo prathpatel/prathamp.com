@@ -26,23 +26,27 @@ const ogImage = `/og/projects/${slug}.png`;
   showScrollProgress={true}
 >
   <article class="max-w-4xl mx-auto px-4 py-16">
-    <header class="mb-12 pb-8 border-b-2 border-gray-900 dark:border-gray-100">
-      <p class="font-mono text-xs uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-5">— project</p>
-      <h1 class="font-display text-4xl md:text-6xl font-bold tracking-tighter text-gray-900 dark:text-white mb-5">
+    <header class="mb-12 text-center">
+      <p class="text-sm italic text-primary-600 dark:text-primary-400 mb-4">Project report</p>
+      <h1 class="text-3xl md:text-4xl font-bold leading-tight text-gray-900 dark:text-white mb-5 [text-wrap:balance]">
         {frontmatter.title}
       </h1>
-      <p class="text-xl text-gray-600 dark:text-gray-400 mb-6">{frontmatter.description}</p>
-      <div class="flex flex-wrap gap-2 mb-8">
-        {frontmatter.tech.map((t) => <Tag name={t} basePath="/projects/tags" />)}
+      <div class="mx-auto max-w-xl text-left mb-5">
+        <p class="text-justify [hyphens:auto] leading-relaxed text-gray-800 dark:text-gray-200">
+          <span class="font-bold">Abstract.</span> {frontmatter.description}
+        </p>
       </div>
-      <div class="flex flex-wrap gap-3">
+      <div class="flex flex-wrap justify-center gap-x-2 gap-y-1 mb-7">
+        {frontmatter.tech.map((t) => <Tag name={t} size="sm" basePath="/projects/tags" />)}
+      </div>
+      <div class="flex flex-wrap justify-center gap-3">
         {
           frontmatter.github && (
             <a
               href={frontmatter.github}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-5 py-2.5 font-mono text-xs uppercase tracking-widest bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full hover:bg-primary-600 dark:hover:bg-primary-400 transition-colors"
+              class="inline-flex items-center gap-2 px-5 py-2.5 text-sm italic bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-none hover:bg-primary-600 dark:hover:bg-primary-400 transition-colors"
             >
               <svg
                 class="w-4 h-4"
@@ -66,7 +70,7 @@ const ogImage = `/og/projects/${slug}.png`;
               href={frontmatter.live}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-5 py-2.5 font-mono text-xs uppercase tracking-widest border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:border-primary-500 hover:text-primary-600 dark:hover:border-primary-500 dark:hover:text-primary-400 transition-colors"
+              class="inline-flex items-center gap-2 px-5 py-2.5 text-sm italic border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-none hover:border-primary-500 hover:text-primary-600 dark:hover:border-primary-500 dark:hover:text-primary-400 transition-colors"
             >
               <svg
                 class="w-4 h-4"
@@ -86,13 +90,14 @@ const ogImage = `/og/projects/${slug}.png`;
           )
         }
       </div>
+      <div class="mt-8 border-b border-gray-900 dark:border-gray-100" aria-hidden="true"></div>
     </header>
     {
       frontmatter.image && (
         <img
           src={frontmatter.image}
           alt={frontmatter.title}
-          class="w-full rounded-2xl mb-12 border border-gray-200 dark:border-gray-800"
+          class="w-full rounded-none mb-12 border border-gray-200 dark:border-gray-800"
         />
       )
     }

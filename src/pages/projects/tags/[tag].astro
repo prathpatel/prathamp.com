@@ -25,19 +25,19 @@ const sortedProjects = projects.sort((a, b) => a.data.title.localeCompare(b.data
 <BaseLayout title={`Projects using "${tag}"`} description={`All projects using ${tag}`}>
   <section class="max-w-6xl mx-auto px-4 pt-16 md:pt-24 pb-16">
     <div class="mb-8">
-      <a href="/projects" class="font-mono text-xs uppercase tracking-widest text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+      <a href="/projects" class="text-sm italic text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
         &larr; all projects
       </a>
     </div>
-    <p class="font-mono text-sm text-primary-600 dark:text-primary-400 mb-4">— built with</p>
-    <h1 class="font-display font-bold uppercase tracking-tighter leading-none text-gray-900 dark:text-white text-4xl md:text-7xl mb-6 break-words">
-      {tag}<span class="text-primary-600 dark:text-primary-400">.</span>
+    <p class="text-sm italic text-primary-600 dark:text-primary-400 mb-4">— built with</p>
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 break-words">
+      Projects using <em>[{tag.toLowerCase()}]</em>
     </h1>
-    <p class="font-mono text-sm text-gray-500 dark:text-gray-400 mb-12">
+    <p class="text-sm italic text-gray-500 dark:text-gray-400 mb-12">
       {sortedProjects.length} project{sortedProjects.length !== 1 ? "s" : ""} found
     </p>
 
-    <div class="border-t-2 border-gray-900 dark:border-gray-100">
+    <div class="border-t border-gray-900 dark:border-gray-100">
       {sortedProjects.map((project, i) => (
         <ProjectRow
           title={project.data.title}
