@@ -2,50 +2,73 @@
 import { siteConfig } from "../config/site";
 
 const socials = [
-  { name: "github", href: `https://github.com/${siteConfig.author.github}` },
-  { name: "linkedin", href: `https://linkedin.com/in/${siteConfig.author.linkedin}` },
-  { name: "twitter", href: `https://twitter.com/${siteConfig.author.twitter}` },
+  { name: "GitHub", href: `https://github.com/${siteConfig.author.github}` },
+  { name: "LinkedIn", href: `https://linkedin.com/in/${siteConfig.author.linkedin}` },
+  { name: "Twitter", href: `https://twitter.com/${siteConfig.author.twitter}` },
 ];
 ---
 
-<footer class="mt-12 border-t-2 border-gray-900 dark:border-gray-100 bg-gray-50 dark:bg-gray-950">
-  <div class="max-w-6xl mx-auto px-4 py-16 md:py-24">
-    <p class="font-mono text-sm text-primary-600 dark:text-primary-400 mb-6">— let's talk</p>
-    <a
-      href={`mailto:${siteConfig.author.email}`}
-      class="group inline-block font-display font-bold uppercase tracking-tighter leading-[0.95] text-[clamp(2.75rem,9vw,7rem)] text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-    >
-      Get in touch<span class="inline-block transition-transform duration-300 group-hover:translate-x-3 group-hover:-translate-y-2">&#8599;</span>
-    </a>
-    <p class="mt-6 font-mono text-sm text-gray-500 dark:text-gray-400">
-      <a href={`mailto:${siteConfig.author.email}`} class="underline underline-offset-4 decoration-gray-300 dark:decoration-gray-700 hover:text-primary-600 dark:hover:text-primary-400 hover:decoration-current transition-colors">
-        {siteConfig.author.email}
-      </a>
-    </p>
-
-    <div class="mt-16 md:mt-20 pt-8 border-t border-gray-200 dark:border-gray-800 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-      <nav class="flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-widest">
-        {siteConfig.nav.map((item) => (
-          <a href={item.href} class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-            {item.name}
-          </a>
-        ))}
-      </nav>
-      <div class="flex gap-x-6 font-mono text-xs uppercase tracking-widest">
-        {socials.map((s) => (
+<footer class="border-t border-gray-900 dark:border-gray-100 bg-white dark:bg-gray-950">
+  <div class="max-w-6xl mx-auto md:border-x border-gray-200 dark:border-gray-800">
+    <div class="grid md:grid-cols-12">
+      <div class="md:col-span-8 p-4 py-10 md:p-10 md:border-r border-gray-200 dark:border-gray-800">
+        <p class="text-[11px] font-medium uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400 mb-6">
+          Contact
+        </p>
+        <a
+          href={`mailto:${siteConfig.author.email}`}
+          class="block text-4xl md:text-6xl font-bold tracking-tight leading-none text-gray-950 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+        >
+          Get in touch&#8599;
+        </a>
+        <p class="mt-6 text-sm text-gray-500 dark:text-gray-400">
           <a
-            href={s.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+            href={`mailto:${siteConfig.author.email}`}
+            class="underline underline-offset-4 decoration-gray-300 dark:decoration-gray-700 hover:text-primary-600 dark:hover:text-primary-400 hover:decoration-current transition-colors"
           >
-            {s.name}&#8599;
+            {siteConfig.author.email}
           </a>
-        ))}
+        </p>
+      </div>
+      <div class="md:col-span-4 flex flex-col divide-y divide-gray-200 dark:divide-gray-800 border-t md:border-t-0 border-gray-200 dark:border-gray-800">
+        <nav class="p-4 md:p-6 flex-1">
+          <p class="text-[11px] font-medium uppercase tracking-[0.2em] text-gray-400 dark:text-gray-600 mb-4">Index</p>
+          <ul class="space-y-2">
+            {siteConfig.nav.map((item, i) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="flex items-baseline justify-between text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                >
+                  {item.name}
+                  <span class="text-[10px] tracking-[0.15em] text-gray-400 dark:text-gray-600">{String(i + 1).padStart(2, "0")}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div class="p-4 md:p-6">
+          <p class="text-[11px] font-medium uppercase tracking-[0.2em] text-gray-400 dark:text-gray-600 mb-4">Network</p>
+          <ul class="space-y-2">
+            {socials.map((s) => (
+              <li>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                >
+                  {s.name}&#8599;
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
-    <p class="mt-8 font-mono text-xs text-gray-400 dark:text-gray-600">
-      &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
-    </p>
+    <div class="border-t border-gray-200 dark:border-gray-800 px-4 md:px-10 py-4 flex flex-wrap items-center justify-between gap-2 text-[11px] font-medium uppercase tracking-[0.15em] text-gray-500 dark:text-gray-400">
+      <span>&copy; {new Date().getFullYear()} {siteConfig.name}</span>
+      <span>Ahmedabad, India</span>
+    </div>
   </div>
 </footer>

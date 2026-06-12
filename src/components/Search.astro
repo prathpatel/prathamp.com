@@ -5,7 +5,7 @@
 <button
   id="search-btn"
   type="button"
-  class="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800 transition-colors"
+  class="p-2 rounded-none text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800 transition-colors"
   aria-label="Search"
 >
   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,7 +35,7 @@
   <!-- Modal Content -->
   <div class="relative flex items-start justify-center pt-[10vh] px-4">
     <div
-      class="w-full max-w-2xl bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden"
+      class="w-full max-w-2xl bg-white dark:bg-gray-900 rounded-none shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden"
     >
       <!-- Search Header -->
       <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-200 dark:border-gray-700">
@@ -179,7 +179,7 @@
             (result, index) => `
             <a
               href="${result.url}"
-              class="search-result block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group"
+              class="search-result block px-4 py-3 rounded-none hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group"
               data-index="${index}"
             >
               <div class="font-medium text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400">

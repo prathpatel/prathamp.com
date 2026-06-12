@@ -16,25 +16,49 @@ const latestPosts = (await getCollection("blog"))
 ---
 
 <BaseLayout>
-  <!-- Hero -->
-  <section class="max-w-6xl mx-auto px-4 pt-16 md:pt-24">
-    <div class="flex items-center gap-2.5 font-mono text-xs md:text-sm text-gray-600 dark:text-gray-400 mb-8 md:mb-10">
-      <span class="relative flex h-2 w-2">
-        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-        <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
-      </span>
-      open to opportunities — ahmedabad, india
+  <!-- Hero: asymmetric grid cells -->
+  <section class="grid md:grid-cols-12 border-b border-gray-200 dark:border-gray-800">
+    <div class="md:col-span-8 p-4 py-14 md:p-10 md:py-24 md:border-r border-gray-200 dark:border-gray-800">
+      <h1 class="text-6xl md:text-8xl font-bold tracking-tight leading-[0.95] text-gray-950 dark:text-white">
+        Pratham<br />Patel<span class="inline-block w-[0.13em] h-[0.13em] ml-[0.06em] bg-primary-600" aria-hidden="true"></span>
+      </h1>
     </div>
-    <h1 class="font-display font-bold uppercase tracking-tighter leading-[0.9] text-gray-900 dark:text-white text-[clamp(3.5rem,13vw,10rem)]">
-      Pratham<br />Patel<span class="text-primary-600 dark:text-primary-400">.</span>
-    </h1>
-    <div class="mt-10 md:mt-16 grid gap-6 md:gap-8 md:grid-cols-12 border-t-2 border-gray-900 dark:border-gray-100 pt-8 md:pt-10">
-      <div class="md:col-span-4 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 leading-loose">
-        Data Scientist<br />
-        ML · NLP · Computer Vision<br />
-        AWS · EKS · Docker
+    <div class="md:col-span-4 flex flex-col justify-between gap-10 p-4 py-8 md:p-10 border-t md:border-t-0 border-gray-200 dark:border-gray-800">
+      <div class="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.18em] text-gray-700 dark:text-gray-300">
+        <span class="relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex h-2 w-2 bg-emerald-500"></span>
+        </span>
+        Open to opportunities
       </div>
-      <p class="md:col-span-8 text-xl md:text-2xl leading-relaxed text-gray-700 dark:text-gray-300">
+      <dl class="space-y-3 text-[11px] font-medium uppercase tracking-[0.18em]">
+        <div class="flex justify-between gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+          <dt class="text-gray-400 dark:text-gray-600">Role</dt>
+          <dd class="text-gray-950 dark:text-white text-right">Data Scientist</dd>
+        </div>
+        <div class="flex justify-between gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+          <dt class="text-gray-400 dark:text-gray-600">Focus</dt>
+          <dd class="text-gray-950 dark:text-white text-right">ML · NLP · CV</dd>
+        </div>
+        <div class="flex justify-between gap-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+          <dt class="text-gray-400 dark:text-gray-600">Stack</dt>
+          <dd class="text-gray-950 dark:text-white text-right">AWS · EKS · Docker</dd>
+        </div>
+        <div class="flex justify-between gap-4">
+          <dt class="text-gray-400 dark:text-gray-600">Base</dt>
+          <dd class="text-gray-950 dark:text-white text-right">Ahmedabad, IN</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Profile strip -->
+  <section class="grid md:grid-cols-12 border-b border-gray-200 dark:border-gray-800">
+    <div class="md:col-span-4 p-4 md:p-10 md:border-r border-gray-200 dark:border-gray-800">
+      <p class="text-[11px] font-medium uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400">Profile</p>
+    </div>
+    <div class="md:col-span-8 p-4 pb-8 md:p-10">
+      <p class="text-lg md:text-xl leading-relaxed text-gray-700 dark:text-gray-300 max-w-2xl">
         2+ years of experience shipping production ML systems, NLP pipelines, and computer vision solutions on cloud-native infrastructure. I translate business problems into deployed AI products — and mentor the next generation of engineers along the way.
       </p>
     </div>
@@ -42,14 +66,12 @@ const latestPosts = (await getCollection("blog"))
 
   <!-- Selected Work -->
   {featuredProjects.length > 0 && (
-    <section class="max-w-6xl mx-auto px-4 pt-20 md:pt-32">
-      <div class="flex items-baseline justify-between pb-4 border-b-2 border-gray-900 dark:border-gray-100">
-        <h2 class="font-display text-3xl md:text-5xl font-bold uppercase tracking-tight text-gray-900 dark:text-white">
-          Selected Work
-        </h2>
-        <span class="font-mono text-sm text-primary-600 dark:text-primary-400">(01)</span>
+    <section class="border-b border-gray-200 dark:border-gray-800">
+      <div class="flex items-center justify-between px-4 md:px-10 py-3 border-b border-gray-200 dark:border-gray-800">
+        <h2 class="text-[11px] font-medium uppercase tracking-[0.2em] text-gray-950 dark:text-white">Selected Work</h2>
+        <span class="text-[11px] font-medium tracking-[0.2em] text-primary-600 dark:text-primary-400">01</span>
       </div>
-      <div>
+      <div class="px-4 md:px-10">
         {featuredProjects.map((project, i) => (
           <ProjectRow
             title={project.data.title}
@@ -62,24 +84,22 @@ const latestPosts = (await getCollection("blog"))
       </div>
       <a
         href="/projects"
-        class="group flex items-center justify-between py-6 font-mono text-sm uppercase tracking-widest text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+        class="flex items-center justify-between px-4 md:px-10 py-4 text-[11px] font-medium uppercase tracking-[0.2em] text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
       >
-        all projects
-        <span class="inline-block transition-transform group-hover:translate-x-2">&rarr;</span>
+        All projects
+        <span>&rarr;</span>
       </a>
     </section>
   )}
 
   <!-- Writing -->
   {latestPosts.length > 0 && (
-    <section class="max-w-6xl mx-auto px-4 pt-20 md:pt-32 pb-20 md:pb-32">
-      <div class="flex items-baseline justify-between pb-4 border-b-2 border-gray-900 dark:border-gray-100">
-        <h2 class="font-display text-3xl md:text-5xl font-bold uppercase tracking-tight text-gray-900 dark:text-white">
-          Writing
-        </h2>
-        <span class="font-mono text-sm text-primary-600 dark:text-primary-400">(02)</span>
+    <section>
+      <div class="flex items-center justify-between px-4 md:px-10 py-3 border-b border-gray-200 dark:border-gray-800">
+        <h2 class="text-[11px] font-medium uppercase tracking-[0.2em] text-gray-950 dark:text-white">Writing</h2>
+        <span class="text-[11px] font-medium tracking-[0.2em] text-primary-600 dark:text-primary-400">02</span>
       </div>
-      <div>
+      <div class="px-4 md:px-10">
         {latestPosts.map((post) => (
           <PostRow
             title={post.data.title}
@@ -91,10 +111,10 @@ const latestPosts = (await getCollection("blog"))
       </div>
       <a
         href="/blog"
-        class="group flex items-center justify-between py-6 font-mono text-sm uppercase tracking-widest text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+        class="flex items-center justify-between px-4 md:px-10 py-4 text-[11px] font-medium uppercase tracking-[0.2em] text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
       >
-        all writing
-        <span class="inline-block transition-transform group-hover:translate-x-2">&rarr;</span>
+        All writing
+        <span>&rarr;</span>
       </a>
     </section>
   )}

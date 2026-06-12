@@ -20,9 +20,9 @@ const { frontmatter } = Astro.props;
   publishedTime={frontmatter.date}
   tags={frontmatter.topic ? [frontmatter.topic] : undefined}
 >
-  <article class="max-w-3xl mx-auto px-4 py-16">
-    <header class="mb-10 pb-8 border-b-2 border-gray-900 dark:border-gray-100">
-      <div class="flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-5">
+  <article class="max-w-3xl px-4 md:px-10 py-16">
+    <header class="mb-10 pb-8 border-b border-gray-900 dark:border-gray-100">
+      <div class="flex items-center gap-4 text-[11px] font-medium uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400 mb-5">
         <time datetime={frontmatter.date.toISOString()}>
           {formatDate(frontmatter.date)}
         </time>

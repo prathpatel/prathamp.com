@@ -12,10 +12,11 @@ interface Props {
 const { showScrollProgress = false, progressTarget = "article" } = Astro.props;
 ---
 
-<header class="sticky top-0 z-50 bg-gray-50/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200/70 dark:border-gray-800/70 relative">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-    <a href="/" class="font-display text-base font-bold uppercase tracking-tight text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-      {siteConfig.name}<span class="text-primary-600 dark:text-primary-400">.</span>
+<header class="sticky top-0 z-50 bg-white/95 dark:bg-gray-950/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 relative">
+  <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between md:border-x border-gray-200 dark:border-gray-800">
+    <a href="/" class="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-gray-950 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+      <span class="inline-block w-2 h-2 bg-primary-600" aria-hidden="true"></span>
+      {siteConfig.name}
     </a>
     <div class="flex items-center gap-4">
       <NavBar />

@@ -4,35 +4,35 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Space Grotesk", system-ui, sans-serif;
-  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  /* Warm neutrals (stone) mapped onto the gray scale used site-wide */
-  --color-gray-50: #fafaf9;
-  --color-gray-100: #f5f5f4;
-  --color-gray-200: #e7e5e4;
-  --color-gray-300: #d6d3d1;
-  --color-gray-400: #a8a29e;
-  --color-gray-500: #78716c;
-  --color-gray-600: #57534e;
-  --color-gray-700: #44403c;
-  --color-gray-800: #292524;
-  --color-gray-900: #1c1917;
-  --color-gray-950: #0c0a09;
+  /* True neutrals — cold, no tint */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e5e5e5;
+  --color-gray-300: #d4d4d4;
+  --color-gray-400: #a3a3a3;
+  --color-gray-500: #737373;
+  --color-gray-600: #525252;
+  --color-gray-700: #404040;
+  --color-gray-800: #262626;
+  --color-gray-900: #171717;
+  --color-gray-950: #0a0a0a;
 
-  /* Ember accent — shifted darker so primary-600 holds white text */
-  --color-primary-50: #fff7ed;
-  --color-primary-100: #ffedd5;
-  --color-primary-200: #fed7aa;
-  --color-primary-300: #fdba74;
-  --color-primary-400: #fb923c;
-  --color-primary-500: #f97316;
-  --color-primary-600: #c2410c;
-  --color-primary-700: #9a3412;
-  --color-primary-800: #7c2d12;
-  --color-primary-900: #621f0d;
-  --color-primary-950: #3b1106;
+  /* Swiss red — the single accent */
+  --color-primary-50: #fef2f2;
+  --color-primary-100: #fee2e2;
+  --color-primary-200: #fecaca;
+  --color-primary-300: #fca5a5;
+  --color-primary-400: #f87171;
+  --color-primary-500: #ef4444;
+  --color-primary-600: #dc2626;
+  --color-primary-700: #b91c1c;
+  --color-primary-800: #991b1b;
+  --color-primary-900: #7f1d1d;
+  --color-primary-950: #450a0a;
 }
 
 @layer base {
@@ -44,7 +44,7 @@
   }
 
   body {
-    @apply bg-gray-50 text-gray-900 antialiased;
+    @apply bg-white text-gray-950 antialiased;
     @apply dark:bg-gray-950 dark:text-gray-100;
     max-width: 100%;
     overflow-x: hidden;

@@ -5,17 +5,17 @@ const mailchimpUrl = siteConfig.newsletter.mailchimpUrl;
 const honeypot = siteConfig.newsletter.mailchimpHoneypot;
 ---
 
-<section class="mt-16 pt-10 border-t-2 border-gray-900 dark:border-gray-100">
+<section class="mt-16 pt-10 border-t border-gray-900 dark:border-gray-100">
   <div class="flex flex-col sm:flex-row gap-8 sm:items-center">
     <img
       src="/newsletter.svg"
       alt="Newsletter"
       width="200"
       height="130"
-      class="hidden sm:block shrink-0 rounded-2xl"
+      class="hidden sm:block shrink-0 rounded-none"
     />
     <div class="flex-1">
-    <p class="font-mono text-xs uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-3">— newsletter</p>
+    <p class="text-[11px] font-medium uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400 mb-3">— newsletter</p>
     <h3 class="font-display text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-2">
       Enjoyed this post?
     </h3>
@@ -34,7 +34,7 @@ const honeypot = siteConfig.newsletter.mailchimpHoneypot;
         name="EMAIL"
         placeholder="your@email.com"
         required
-        class="flex-1 px-5 py-2.5 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+        class="flex-1 px-5 py-2.5 rounded-none border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
       />
       <!-- Honeypot field to prevent bot signups -->
       <div style="position: absolute; left: -5000px;" aria-hidden="true">
@@ -42,7 +42,7 @@ const honeypot = siteConfig.newsletter.mailchimpHoneypot;
       </div>
       <button
         type="submit"
-        class="px-6 py-2.5 rounded-full font-mono text-xs uppercase tracking-widest bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-primary-600 dark:hover:bg-primary-400 transition-colors cursor-pointer shrink-0"
+        class="px-6 py-2.5 rounded-none text-[11px] font-medium uppercase tracking-[0.2em] bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-primary-600 dark:hover:bg-primary-400 transition-colors cursor-pointer shrink-0"
       >
         Subscribe
       </button>

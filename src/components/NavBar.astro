@@ -11,10 +11,10 @@ const currentPath = Astro.url.pathname;
       <a
         href={item.href}
         class:list={[
-          "font-mono text-xs uppercase tracking-widest transition-colors",
+          "text-[11px] font-medium uppercase tracking-[0.18em] transition-colors",
           isNavItemActive(currentPath, item.href)
             ? "text-primary-600 dark:text-primary-400"
-            : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100",
+            : "text-gray-600 dark:text-gray-400 hover:text-gray-950 dark:hover:text-gray-100",
         ]}
       >
         {item.name}

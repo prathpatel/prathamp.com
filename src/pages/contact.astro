@@ -31,16 +31,16 @@ const channels = [
 ---
 
 <BaseLayout title="Contact" description="Get in touch with me.">
-  <section class="max-w-6xl mx-auto px-4 pt-16 md:pt-24 pb-16">
-    <p class="font-mono text-sm text-primary-600 dark:text-primary-400 mb-4">— contact</p>
-    <h1 class="font-display font-bold uppercase tracking-tighter leading-[0.9] text-gray-900 dark:text-white text-5xl md:text-8xl mb-6">
-      Say hello<span class="text-primary-600 dark:text-primary-400">.</span>
+  <section class="px-4 md:px-10 pt-16 md:pt-24 pb-16">
+    <p class="text-[11px] font-medium uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400 mb-4">— contact</p>
+    <h1 class="font-bold tracking-tight leading-[0.9] text-gray-900 dark:text-white text-5xl md:text-8xl mb-6">
+      Say hello<span class="inline-block w-[0.13em] h-[0.13em] ml-[0.08em] bg-primary-600" aria-hidden="true"></span>
     </h1>
     <p class="text-xl text-gray-600 dark:text-gray-400 mb-12 md:mb-16 max-w-2xl">
       Have a question or want to work together? Pick a channel — email gets the fastest reply.
     </p>
 
-    <div class="border-t-2 border-gray-900 dark:border-gray-100">
+    <div class="border-t border-gray-900 dark:border-gray-100">
       {channels.map((channel) => (
         <a
           href={channel.href}
@@ -48,14 +48,14 @@ const channels = [
           rel={channel.external ? "noopener noreferrer" : undefined}
           class="group grid grid-cols-[1fr_auto] md:grid-cols-12 items-baseline gap-x-4 gap-y-1.5 py-7 md:py-8 border-b border-gray-200 dark:border-gray-800 transition-colors"
         >
-          <span class="order-last md:order-none col-span-2 md:col-span-3 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400">
+          <span class="order-last md:order-none col-span-2 md:col-span-3 text-[11px] font-medium uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
             {channel.label}
           </span>
-          <span class="min-w-0 md:col-span-8 font-display text-xl md:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white break-words transition-all duration-300 group-hover:translate-x-2 group-hover:text-primary-600 dark:group-hover:text-primary-400">
+          <span class="min-w-0 md:col-span-8 font-display text-xl md:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white break-words transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400">
             {channel.value}
           </span>
           <svg
-            class="md:col-span-1 justify-self-end w-6 h-6 shrink-0 self-center md:self-auto text-gray-300 dark:text-gray-700 transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400 group-hover:translate-x-1 group-hover:-translate-y-1"
+            class="md:col-span-1 justify-self-end w-6 h-6 shrink-0 self-center md:self-auto text-gray-300 dark:text-gray-700 transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400"
             fill="none"
             stroke="currentColor"
             stroke-width="1.5"
@@ -68,7 +68,7 @@ const channels = [
       ))}
     </div>
 
-    <p class="mt-10 font-mono text-sm text-gray-500 dark:text-gray-400">
+    <p class="mt-10 text-xs font-medium uppercase tracking-[0.15em] text-gray-500 dark:text-gray-400">
       Based in Ahmedabad, India — open to remote work worldwide.
     </p>
   </section>

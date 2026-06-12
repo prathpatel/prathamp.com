@@ -47,13 +47,13 @@ const skills = [
 ---
 
 <BaseLayout title="About" description="Learn more about me and my journey as a developer.">
-  <section class="max-w-6xl mx-auto px-4 pt-16 md:pt-24 pb-16">
-    <p class="font-mono text-sm text-primary-600 dark:text-primary-400 mb-4">— about</p>
-    <h1 class="font-display font-bold uppercase tracking-tighter leading-none text-gray-900 dark:text-white text-5xl md:text-8xl mb-10 md:mb-14">
-      About Me<span class="text-primary-600 dark:text-primary-400">.</span>
+  <section class="px-4 md:px-10 pt-16 md:pt-24 pb-16">
+    <p class="text-[11px] font-medium uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400 mb-4">— about</p>
+    <h1 class="font-bold tracking-tight leading-none text-gray-900 dark:text-white text-5xl md:text-8xl mb-10 md:mb-14">
+      About Me<span class="inline-block w-[0.13em] h-[0.13em] ml-[0.08em] bg-primary-600" aria-hidden="true"></span>
     </h1>
 
-    <div class="prose prose-lg prose-gray dark:prose-invert max-w-3xl mb-16 border-t-2 border-gray-900 dark:border-gray-100 pt-8">
+    <div class="prose prose-lg prose-gray dark:prose-invert max-w-3xl mb-16 border-t border-gray-900 dark:border-gray-100 pt-8">
       <p>
         Hey there! I'm {siteConfig.name}, a Data Scientist with 2+ years of experience building
         production ML systems, NLP applications, and computer vision solutions. I'm skilled at
@@ -77,23 +77,23 @@ const skills = [
 
     <!-- Experience Timeline -->
     <div class="mb-16">
-      <div class="flex items-baseline justify-between pb-4 mb-8 border-b-2 border-gray-900 dark:border-gray-100">
-        <h2 class="font-display text-2xl md:text-4xl font-bold uppercase tracking-tight text-gray-900 dark:text-white">Experience & Education</h2>
-        <span class="font-mono text-sm text-primary-600 dark:text-primary-400">(01)</span>
+      <div class="flex items-baseline justify-between pb-4 mb-8 border-b border-gray-900 dark:border-gray-100">
+        <h2 class="font-display text-2xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white">Experience & Education</h2>
+        <span class="text-[11px] font-medium uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400">(01)</span>
       </div>
       <Timeline items={experience} />
     </div>
 
     <!-- Skills Section -->
     <div class="mb-16">
-      <div class="flex items-baseline justify-between pb-4 border-b-2 border-gray-900 dark:border-gray-100">
-        <h2 class="font-display text-2xl md:text-4xl font-bold uppercase tracking-tight text-gray-900 dark:text-white">Skills & Tools</h2>
-        <span class="font-mono text-sm text-primary-600 dark:text-primary-400">(02)</span>
+      <div class="flex items-baseline justify-between pb-4 border-b border-gray-900 dark:border-gray-100">
+        <h2 class="font-display text-2xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white">Skills & Tools</h2>
+        <span class="text-[11px] font-medium uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400">(02)</span>
       </div>
       <div>
         {skills.map((skill) => (
           <div class="grid gap-3 md:grid-cols-12 md:gap-6 py-6 border-b border-gray-200 dark:border-gray-800">
-            <h3 class="md:col-span-3 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 pt-1">
+            <h3 class="md:col-span-3 text-[11px] font-medium uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400 pt-1">
               {skill.category}
             </h3>
             <p class="md:col-span-9 font-display text-lg md:text-xl text-gray-900 dark:text-gray-100 leading-relaxed">
@@ -108,10 +108,10 @@ const skills = [
     <a
       href="/Pratham_Patel_Resume.pdf"
       download
-      class="group flex items-baseline justify-between gap-4 py-8 border-y-2 border-gray-900 dark:border-gray-100"
+      class="group flex items-baseline justify-between gap-4 py-8 border-y border-gray-900 dark:border-gray-100"
     >
       <div>
-        <h2 class="font-display text-2xl md:text-4xl font-bold uppercase tracking-tight text-gray-900 dark:text-white transition-all duration-300 group-hover:translate-x-2 group-hover:text-primary-600 dark:group-hover:text-primary-400">
+        <h2 class="font-display text-2xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400">
           Download Resume
         </h2>
         <p class="mt-2 text-gray-600 dark:text-gray-400">
@@ -119,7 +119,7 @@ const skills = [
         </p>
       </div>
       <svg
-        class="w-7 h-7 shrink-0 text-gray-300 dark:text-gray-700 transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400 group-hover:translate-y-1"
+        class="w-7 h-7 shrink-0 text-gray-300 dark:text-gray-700 transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400"
         fill="none"
         stroke="currentColor"
         stroke-width="1.5"

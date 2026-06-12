@@ -9,12 +9,12 @@ interface Props {
 const { name, size = "md", asLink = true, basePath = "/tags" } = Astro.props;
 
 const sizeClasses = {
-  sm: "text-xs px-2 py-0.5",
-  md: "text-sm px-2.5 py-1",
+  sm: "text-[10px] px-2 py-1",
+  md: "text-[11px] px-2.5 py-1",
 };
 
-const baseClasses = "inline-block font-mono lowercase rounded-md border border-gray-200 bg-gray-100/80 text-gray-600 transition-colors dark:border-gray-700 dark:bg-gray-800/80 dark:text-gray-400";
-const hoverClasses = asLink ? "hover:border-primary-300 hover:bg-primary-50 hover:text-primary-700 dark:hover:border-primary-700 dark:hover:bg-primary-950 dark:hover:text-primary-300" : "";
+const baseClasses = "inline-block font-medium uppercase tracking-[0.15em] border border-gray-300 text-gray-600 transition-colors dark:border-gray-700 dark:text-gray-400";
+const hoverClasses = asLink ? "hover:border-primary-600 hover:text-primary-600 dark:hover:border-primary-400 dark:hover:text-primary-400" : "";
 ---
 
 {asLink ? (

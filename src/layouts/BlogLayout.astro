@@ -37,10 +37,10 @@ const ogImage = `/og/blog/${slug}.png`;
   publishedTime={frontmatter.date}
   tags={frontmatter.tags}
 >
-  <div class="max-w-6xl mx-auto px-4 py-16 overflow-x-clip lg:grid lg:grid-cols-[1fr_220px] lg:gap-12">
+  <div class="px-4 md:px-10 py-16 overflow-x-clip lg:grid lg:grid-cols-[1fr_220px] lg:gap-12">
     <article class="min-w-0">
-    <header class="mb-12 pb-8 border-b-2 border-gray-900 dark:border-gray-100">
-      <div class="flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-5">
+    <header class="mb-12 pb-8 border-b border-gray-900 dark:border-gray-100">
+      <div class="flex items-center gap-4 text-[11px] font-medium uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400 mb-5">
         <time datetime={frontmatter.date.toISOString()}>
           {formatDate(frontmatter.date)}
         </time>
