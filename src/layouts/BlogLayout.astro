@@ -39,15 +39,15 @@ const ogImage = `/og/blog/${slug}.png`;
 >
   <div class="max-w-6xl mx-auto px-4 py-16 overflow-x-clip lg:grid lg:grid-cols-[1fr_220px] lg:gap-12">
     <article class="min-w-0">
-    <header class="mb-12">
-      <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
+    <header class="mb-12 pb-8 border-b-2 border-gray-900 dark:border-gray-100">
+      <div class="flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-5">
         <time datetime={frontmatter.date.toISOString()}>
           {formatDate(frontmatter.date)}
         </time>
-        <span>&middot;</span>
+        <span aria-hidden="true">&middot;</span>
         <span>{readingTime(body)} min read</span>
       </div>
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 break-words [overflow-wrap:anywhere]">
+      <h1 class="font-display text-4xl md:text-6xl font-bold tracking-tighter text-gray-900 dark:text-white mb-5 break-words [overflow-wrap:anywhere]">
         {frontmatter.title}
       </h1>
       <p class="text-xl text-gray-600 dark:text-gray-400 mb-6 break-words [overflow-wrap:anywhere]">{frontmatter.description}</p>
