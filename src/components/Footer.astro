@@ -24,7 +24,7 @@ const socials = [
     </p>
 
     <div class="mt-16 md:mt-20 pt-8 border-t border-gray-200 dark:border-gray-800 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-      <nav class="flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-widest">
+      <nav class="grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-xs uppercase tracking-widest sm:flex sm:flex-wrap">
         {siteConfig.nav.map((item) => (
           <a href={item.href} class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
             {item.name}
