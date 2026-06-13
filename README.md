@@ -100,7 +100,7 @@ title: "Post Title"
 description: "Brief description"
 date: 2024-01-01
 tags: ["tag1", "tag2"]
-draft: false
+draft: true
 ---
 
 Post content here...
