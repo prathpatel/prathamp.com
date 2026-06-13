@@ -8,13 +8,16 @@ interface Props {
     date: Date;
     topic?: string;
   };
+  slug: string;
 }
 
-const { frontmatter } = Astro.props;
+const { frontmatter, slug } = Astro.props;
+const ogImage = `/og/notes/${slug}.png`;
 ---
 
 <BaseLayout
   title={frontmatter.title}
+  image={ogImage}
   type="article"
   showScrollProgress={true}
   publishedTime={frontmatter.date}
