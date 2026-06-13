@@ -47,10 +47,13 @@ const skills = [
 ---
 
 <BaseLayout title="About" description="Learn more about me and my journey as a developer.">
-  <section class="max-w-4xl mx-auto px-4 py-16">
-    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-8">About Me</h1>
+  <section class="max-w-6xl mx-auto px-4 pt-16 md:pt-24 pb-16">
+    <p class="font-mono text-sm text-primary-600 dark:text-primary-400 mb-4">— about</p>
+    <h1 class="font-display font-bold uppercase tracking-tighter leading-none text-gray-900 dark:text-white text-5xl md:text-8xl mb-10 md:mb-14">
+      About Me<span class="text-primary-600 dark:text-primary-400">.</span>
+    </h1>
 
-    <div class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-12">
+    <div class="prose prose-lg prose-gray dark:prose-invert max-w-3xl mb-16 border-t-2 border-gray-900 dark:border-gray-100 pt-8">
       <p>
         Hey there! I'm {siteConfig.name}, a Data Scientist with 2+ years of experience building
         production ML systems, NLP applications, and computer vision solutions. I'm skilled at
@@ -74,45 +77,57 @@ const skills = [
 
     <!-- Experience Timeline -->
     <div class="mb-16">
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">Experience & Education</h2>
+      <div class="flex items-baseline justify-between pb-4 mb-8 border-b-2 border-gray-900 dark:border-gray-100">
+        <h2 class="font-display text-2xl md:text-4xl font-bold uppercase tracking-tight text-gray-900 dark:text-white">Experience & Education</h2>
+        <span class="font-mono text-sm text-primary-600 dark:text-primary-400">(01)</span>
+      </div>
       <Timeline items={experience} />
     </div>
 
     <!-- Skills Section -->
-    <div class="mb-12">
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Skills & Technologies</h2>
-      <div class="grid md:grid-cols-2 gap-6">
+    <div class="mb-16">
+      <div class="flex items-baseline justify-between pb-4 border-b-2 border-gray-900 dark:border-gray-100">
+        <h2 class="font-display text-2xl md:text-4xl font-bold uppercase tracking-tight text-gray-900 dark:text-white">Skills & Tools</h2>
+        <span class="font-mono text-sm text-primary-600 dark:text-primary-400">(02)</span>
+      </div>
+      <div>
         {skills.map((skill) => (
-          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-3">{skill.category}</h3>
-            <div class="flex flex-wrap gap-2">
-              {skill.items.map((item) => (
-                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">
-                  {item}
-                </span>
-              ))}
-            </div>
+          <div class="grid gap-3 md:grid-cols-12 md:gap-6 py-6 border-b border-gray-200 dark:border-gray-800">
+            <h3 class="md:col-span-3 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 pt-1">
+              {skill.category}
+            </h3>
+            <p class="md:col-span-9 font-display text-lg md:text-xl text-gray-900 dark:text-gray-100 leading-relaxed">
+              {skill.items.join(" · ")}
+            </p>
           </div>
         ))}
       </div>
     </div>
 
     <!-- Resume Download -->
-    <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Want to know more?</h2>
-      <p class="text-gray-600 dark:text-gray-400 mb-4">
-        Download my resume for a complete overview of my experience and skills.
-      </p>
-      <a
-        href="/Pratham_Patel_Resume.pdf"
-        download
-        class="inline-flex items-center px-4 py-2 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
+    <a
+      href="/Pratham_Patel_Resume.pdf"
+      download
+      class="group flex items-baseline justify-between gap-4 py-8 border-y-2 border-gray-900 dark:border-gray-100"
+    >
+      <div>
+        <h2 class="font-display text-2xl md:text-4xl font-bold uppercase tracking-tight text-gray-900 dark:text-white transition-all duration-300 group-hover:translate-x-2 group-hover:text-primary-600 dark:group-hover:text-primary-400">
+          Download Resume
+        </h2>
+        <p class="mt-2 text-gray-600 dark:text-gray-400">
+          A complete overview of my experience and skills, in one PDF.
+        </p>
+      </div>
+      <svg
+        class="w-7 h-7 shrink-0 text-gray-300 dark:text-gray-700 transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400 group-hover:translate-y-1"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
       >
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-        Download Resume
-      </a>
-    </div>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14" />
+      </svg>
+    </a>
   </section>
 </BaseLayout>
