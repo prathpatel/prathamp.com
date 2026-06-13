@@ -10,11 +10,11 @@ const { name, size = "md", asLink = true, basePath = "/tags" } = Astro.props;
 
 const sizeClasses = {
   sm: "text-xs px-2 py-0.5",
-  md: "text-sm px-3 py-1",
+  md: "text-sm px-2.5 py-1",
 };
 
-const baseClasses = "inline-block font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full transition-colors";
-const hoverClasses = asLink ? "hover:bg-primary-100 dark:hover:bg-primary-900 hover:text-primary-700 dark:hover:text-primary-300" : "";
+const baseClasses = "inline-block font-mono lowercase rounded-md border border-gray-200 bg-gray-100/80 text-gray-600 transition-colors dark:border-gray-700 dark:bg-gray-800/80 dark:text-gray-400";
+const hoverClasses = asLink ? "hover:border-primary-300 hover:bg-primary-50 hover:text-primary-700 dark:hover:border-primary-700 dark:hover:bg-primary-950 dark:hover:text-primary-300" : "";
 ---
 
 {asLink ? (
