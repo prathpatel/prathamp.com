@@ -1,127 +1,242 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
+import { readFile } from "node:fs/promises";
 import satori from "satori";
 import sharp from "sharp";
+import { siteConfig } from "../../config/site";
+
+const WIDTH = 1200;
+const HEIGHT = 630;
+const DISPLAY_FONT = "Space Grotesk";
+const MONO_FONT = "JetBrains Mono";
+
+const colors = {
+  white: "#ffffff",
+  stone300: "#d6d3d1",
+  stone800: "#292524",
+  stone900: "#1c1917",
+  ember600: "#c2410c",
+  ember950: "#3b1106",
+};
+
+type OgProps = {
+  title: string;
+  type: "Portfolio" | "Blog" | "Project" | "Note";
+  description?: string;
+  metaItems?: string[];
+};
+
+type FontSpec = {
+  name: string;
+  weight: 500 | 700;
+  url: string;
+  fallbackPath: string;
+};
+
+const fontSpecs: FontSpec[] = [
+  {
+    name: DISPLAY_FONT,
+    weight: 700,
+    url: "https://cdn.jsdelivr.net/fontsource/fonts/space-grotesk@latest/latin-700-normal.woff",
+    fallbackPath: "../../../node_modules/katex/dist/fonts/KaTeX_SansSerif-Bold.woff",
+  },
+  {
+    name: DISPLAY_FONT,
+    weight: 500,
+    url: "https://cdn.jsdelivr.net/fontsource/fonts/space-grotesk@latest/latin-500-normal.woff",
+    fallbackPath: "../../../node_modules/katex/dist/fonts/KaTeX_SansSerif-Regular.woff",
+  },
+  {
+    name: MONO_FONT,
+    weight: 500,
+    url: "https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-500-normal.woff",
+    fallbackPath: "../../../node_modules/katex/dist/fonts/KaTeX_Typewriter-Regular.woff",
+  },
+];
+
+const h = (type: string, style: Record<string, unknown>, children?: unknown) => ({
+  type,
+  props: { style, children },
+});
+
+const truncateText = (text: string | undefined, maxLength: number) => {
+  if (!text) return "";
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength - 3).trimEnd()}...`;
+};
+
+const titleSize = (title: string) => {
+  if (title.length > 78) return 44;
+  if (title.length > 48) return 52;
+  return 60;
+};
+
+const toArrayBuffer = (buffer: Buffer) =>
+  buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength) as ArrayBuffer;
+
+const fetchFont = async (url: string, timeoutMs = 5000) => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch font: ${response.status}`);
+    }
+    return response.arrayBuffer();
+  } finally {
+    clearTimeout(timeout);
+  }
+};
+
+const loadFont = async (spec: FontSpec) => {
+  try {
+    return await fetchFont(spec.url);
+  } catch {
+    const buffer = await readFile(new URL(spec.fallbackPath, import.meta.url));
+    return toArrayBuffer(buffer);
+  }
+};
+
+const fontDataPromise = Promise.all(fontSpecs.map(loadFont));
+
+const renderOg = ({ title, type }: OgProps) => {
+  const displayTitle = type === "Portfolio" ? `${siteConfig.name}.` : title;
+  const size = titleSize(displayTitle);
+
+  return h(
+    "div",
+    {
+      width: "100%",
+      height: "100%",
+      position: "relative",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      padding: 60,
+      overflow: "hidden",
+      background: `linear-gradient(135deg, ${colors.stone900} 0%, ${colors.stone800} 62%, ${colors.ember950} 100%)`,
+      fontFamily: DISPLAY_FONT,
+    },
+    [
+      h(
+        "div",
+        {
+          display: "flex",
+          alignItems: "center",
+          marginBottom: 40,
+        },
+        [
+          h(
+            "div",
+            {
+              background: colors.ember600,
+              color: colors.white,
+              padding: "8px 16px",
+              borderRadius: 6,
+              fontFamily: DISPLAY_FONT,
+              fontSize: 20,
+              fontWeight: 700,
+            },
+            type
+          ),
+        ]
+      ),
+      h(
+        "div",
+        {
+          width: 960,
+          fontSize: size,
+          fontWeight: 700,
+          color: colors.white,
+          lineHeight: 1.14,
+          marginBottom: 40,
+        },
+        truncateText(displayTitle, 108)
+      ),
+      h(
+        "div",
+        {
+          display: "flex",
+          alignItems: "center",
+          marginTop: "auto",
+          fontFamily: DISPLAY_FONT,
+          fontSize: 24,
+          fontWeight: 500,
+          color: colors.stone300,
+        },
+        "prathamp.com"
+      ),
+    ]
+  );
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection("blog");
   const projects = await getCollection("projects");
+  const notes = await getCollection("notes", ({ data }) => !data.draft);
 
   const blogPaths = posts.map((post) => ({
     params: { slug: `blog/${post.slug}` },
-    props: { title: post.data.title, type: "Blog" },
+    props: {
+      title: post.data.title,
+      type: "Blog",
+      description: post.data.description,
+      metaItems: post.data.tags,
+    },
   }));
 
   const projectPaths = projects.map((project) => ({
     params: { slug: `projects/${project.slug}` },
-    props: { title: project.data.title, type: "Project" },
+    props: {
+      title: project.data.title,
+      type: "Project",
+      description: project.data.description,
+      metaItems: project.data.tech,
+    },
+  }));
+
+  const notePaths = notes.map((note) => ({
+    params: { slug: `notes/${note.slug}` },
+    props: {
+      title: note.data.title,
+      type: "Note",
+      description: note.data.topic ? `Notes on ${note.data.topic}.` : "Field notes and working prompts.",
+      metaItems: note.data.topic ? [note.data.topic] : ["notes"],
+    },
   }));
 
   return [
-    { params: { slug: "default" }, props: { title: "Pratham Patel", type: "Portfolio" } },
+    {
+      params: { slug: "default" },
+      props: {
+        title: siteConfig.name,
+        type: "Portfolio",
+        description: siteConfig.description,
+        metaItems: ["data scientist", "machine learning", "technical writing"],
+      },
+    },
     ...blogPaths,
     ...projectPaths,
+    ...notePaths,
   ];
 };
 
 export const GET: APIRoute = async ({ props }) => {
-  const { title, type } = props as { title: string; type: string };
-
-  // Fetch Inter font
-  const fontData = await fetch(
-    "https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-600-normal.woff"
-  ).then((res) => res.arrayBuffer());
+  const ogProps = props as OgProps;
+  const fontData = await fontDataPromise;
 
   const svg = await satori(
+    renderOg(ogProps),
     {
-      type: "div",
-      props: {
-        style: {
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          padding: "60px",
-          background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
-          fontFamily: "Inter",
-        },
-        children: [
-          {
-            type: "div",
-            props: {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "40px",
-              },
-              children: [
-                {
-                  type: "div",
-                  props: {
-                    style: {
-                      background: "#0ea5e9",
-                      color: "white",
-                      padding: "8px 16px",
-                      borderRadius: "6px",
-                      fontSize: "20px",
-                      fontWeight: "600",
-                    },
-                    children: type,
-                  },
-                },
-              ],
-            },
-          },
-          {
-            type: "div",
-            props: {
-              style: {
-                fontSize: title.length > 40 ? "48px" : "56px",
-                fontWeight: "600",
-                color: "white",
-                lineHeight: 1.2,
-                marginBottom: "40px",
-              },
-              children: title,
-            },
-          },
-          {
-            type: "div",
-            props: {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                marginTop: "auto",
-              },
-              children: [
-                {
-                  type: "div",
-                  props: {
-                    style: {
-                      fontSize: "24px",
-                      color: "#94a3b8",
-                    },
-                    children: "prathamp.com",
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      width: 1200,
-      height: 630,
-      fonts: [
-        {
-          name: "Inter",
-          data: fontData,
-          weight: 600,
-          style: "normal",
-        },
-      ],
+      width: WIDTH,
+      height: HEIGHT,
+      fonts: fontSpecs.map((font, index) => ({
+        name: font.name,
+        data: fontData[index],
+        weight: font.weight,
+        style: "normal",
+      })),
     }
   );
 
