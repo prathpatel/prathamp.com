@@ -7,7 +7,9 @@ featured: true
 
 ## Overview
 
-This is a **distributed video analytics service** that ingests automotive service-inspection videos and processes them through a multi-stage AI/ML pipeline — extracting metadata, transcribing speech, analyzing audio quality, detecting objects and license plates, checking for keywords and profanity, and generating LLM-based summaries. Each video enters as a job on a Redis-backed **BullMQ** queue and flows through a **Ray**-orchestrated workflow that fans dozens of CPU- and GPU-bound tasks out across a pool of persistent worker actors.
+This is a **distributed video analytics service** that ingests automotive service-inspection videos and processes them through a multi-stage AI/ML pipeline — extracting metadata, transcribing speech, analyzing audio quality, detecting objects and license plates, checking for keywords and profanity, and generating LLM-based summaries. Each video enters as a job on a Redis-backed **BullMQ** queue, is picked up by a **BullMQ worker** (the queue consumer that is the app's entry point), and flows through a **Ray**-orchestrated workflow that fans dozens of CPU- and GPU-bound tasks out across a pool of persistent **`VideoWorker` actors** (the processes that do the actual video work).
+
+> **A note on the word "worker."** It means three different things in this system, so this post is explicit about which one every time: the **BullMQ worker** pulls jobs off the Redis queue; the **`VideoWorker` actors** are the Ray processes that process a video; and the separate ingestion pipeline uses **Chrome/HTTP download threads** it also calls "workers." Unless qualified, "worker" below always means a `VideoWorker` actor.
 
 The system is built for **throughput under tight memory budgets**. A single video can spawn 15+ parallel tasks — Whisper transcription, RT-DETR object detection, FFmpeg metadata extraction, a custom muffled-audio classifier, license-plate selection, thumbnail upload — all coordinated on one GPU node without blowing the memory ceiling. It runs on **Amazon EKS** with **KEDA** scaling pods to zero when the queue is empty and out to eight when it backs up, and it is deployed continuously through **Azure Pipelines** into both staging and production clusters.
 
@@ -41,13 +43,13 @@ Everything runs on **AWS**, with PostgreSQL (RDS) for state, ElastiCache Redis f
 
 ---
 
-## The Ray Worker Pool
+## The Ray Worker Pool (`VideoWorker` actors)
 
-The heart of the system is a **custom actor-based worker pool** built on Ray 2.24.0, designed to amortize the cost of loading heavy libraries while keeping memory under control.
+The heart of the system is a **custom actor-based pool of `VideoWorker` actors** built on Ray 2.24.0, designed to amortize the cost of loading heavy libraries while keeping memory under control. (This is distinct from the single BullMQ worker that feeds jobs in; everything in this section is about the `VideoWorker` actors that process them.)
 
-A singleton **`WorkerManager`** actor maintains a pool of persistent **`VideoWorker`** actors (default up to six, configurable via `MAX_RAY_WORKERS`). Workers are created **lazily** — the pool starts at zero to avoid holding RAM while idle, and a worker is only spun up when a job arrives. A background monitor thread watches activity and, after an idle timeout, **kills all workers to free memory**, putting the manager to sleep until the next job.
+A singleton **`WorkerManager`** actor maintains the pool of persistent **`VideoWorker`** actors (default up to six, configurable via `MAX_RAY_WORKERS`). `VideoWorker`s are created **lazily** — the pool starts at zero to avoid holding RAM while idle, and one is only spun up when a job arrives. A background monitor thread watches activity and, after an idle timeout, **kills all `VideoWorker`s to free memory**, putting the manager to sleep until the next job.
 
-Each `VideoWorker` pre-loads the expensive dependencies — torch, YOLO, the muffled-audio model, brand plugins — once at startup, then handles many videos without paying that cost again. To prevent the memory fragmentation that inevitably builds up in a long-lived Python process, **workers recycle every 20 jobs**. The workflow leases a worker via `get_idle_worker()` and returns it when done.
+Each `VideoWorker` pre-loads the expensive dependencies — torch, YOLO, the muffled-audio model, brand plugins — once at startup, then handles many videos without paying that cost again. To prevent the memory fragmentation that inevitably builds up in a long-lived Python process, **a `VideoWorker` is recycled (killed and replaced with a fresh one) every 3 videos** — or earlier if it is already over 90% memory. The workflow leases a `VideoWorker` via `get_idle_worker()` and returns it via `return_worker()` when done.
 
 Memory discipline is enforced everywhere:
 
@@ -61,7 +63,7 @@ Memory discipline is enforced everywhere:
 
 ## The Processing Stages
 
-When `video_preprocessing_workflow()` picks up a job, it leases a worker and drives the video through staged, heavily parallelized work. Progress is written back continuously — each stage has a configurable weight (e.g. download = 10%, objects = 10%) and pushes status updates through a central `UpdateAPI`, with intermediate state cached in Redis and persisted to PostgreSQL.
+When `video_preprocessing_workflow()` picks up a job, it leases a `VideoWorker` and drives the video through staged, heavily parallelized work. Progress is written back continuously — each stage has a configurable weight (e.g. download = 10%, objects = 10%) and pushes status updates through a central `UpdateAPI`, with intermediate state cached in Redis and persisted to PostgreSQL.
 
 **1 — Download & Setup.** The video is pulled from S3 into a per-UUID working directory. A Redis-backed **cancellation check** (`raise_if_media_cancelled`) runs at every checkpoint, so a job cancelled mid-flight halts immediately instead of wasting GPU time.
 
@@ -79,11 +81,11 @@ When `video_preprocessing_workflow()` picks up a job, it leases a worker and dri
 
 ## The Inference Engine
 
-Object detection deserved its own design because GPU memory is the scarcest resource on the node. Rather than each worker loading its own copy of RT-DETR, the system uses a **shared, model-agnostic inference actor**.
+Object detection deserved its own design because GPU memory is the scarcest resource on the node. Rather than each `VideoWorker` loading its own copy of RT-DETR, the system uses a **shared, model-agnostic inference actor**.
 
 The **`InferenceEngine`** is a Ray actor with a **model registry** — adding a new detector is a two-step change: drop a wrapper class implementing `load()`/`predict()` into `object_detection/`, and register its string name. Today the registry maps `RTDETRV2` to the `RTDETRV2Model` wrapper, which owns all the RT-DETR-specific setup, weight loading from environment variables, and the preprocess → forward-pass pipeline.
 
-Workers don't call the model directly. They submit frame batches to a **`ModelBatchQueue`** — a FIFO that decouples producers (many workers) from the single GPU consumer, routes results back by batch ID, and centralizes **post-processing** (confidence-threshold filtering, class-ID → label decoding). The engine polls the queue, runs inference, and **unloads the model after an idle timeout** so the GPU isn't held hostage during quiet periods.
+`VideoWorker`s don't call the model directly. They submit frame batches to a **`ModelBatchQueue`** — a FIFO that decouples producers (many `VideoWorker`s) from the single GPU consumer, routes results back by batch ID, and centralizes **post-processing** (confidence-threshold filtering, class-ID → label decoding). The engine polls the queue, runs inference, and **unloads the model after an idle timeout** so the GPU isn't held hostage during quiet periods.
 
 ---
 
@@ -93,7 +95,7 @@ Different OEM customers need different detection logic, but the pipeline plumbin
 
 Each functionality — object detection, license-plate detection, keyword checking — maps to a handler. A **`PluginManager`** loads the right implementation from `plugins/<brand>/` at runtime, driven by a `BRAND_FUNCTIONALITIES` map, and **falls back to `plugins/default/`** when a brand doesn't override a given handler. A brand directory ships files like `<brand>_object_detection.py` and `<brand>_license_plate_detect_v2.py`; the orchestrator invokes them generically through a single `modular_tasks_task()` entry point.
 
-The payoff: onboarding a new brand means adding a directory and wiring it into the map — no changes to the workflow, the worker pool, or the inference engine.
+The payoff: onboarding a new brand means adding a directory and wiring it into the map — no changes to the workflow, the `VideoWorker` pool, or the inference engine.
 
 ---
 
@@ -113,7 +115,7 @@ Every model call is **cost- and token-tracked**. A `calculate_cost()` table pric
 
 Before a video can be analyzed it has to land in S3, and many come from third-party inspection vendors. A separate **cron pipeline** (`SFTP_cron/`) handles this.
 
-It connects to a vendor SFTP server over **SSH-key auth**, downloads only CSVs it hasn't seen (tracked in a processed-files log), and routes each row by vendor. Browser-only sources are scraped with **6 parallel headless Chrome workers** that recover the underlying video URL three ways — console-log sniffing, triggering playback, then reading Chrome's CDP network log — and download via direct HTTP or **yt-dlp** for HLS streams. Direct-link vendors run through **10 parallel HTTP workers**. Everything is re-uploaded to S3 under per-vendor prefixes, and a **bulk-import CSV** is emitted for the platform.
+It connects to a vendor SFTP server over **SSH-key auth**, downloads only CSVs it hasn't seen (tracked in a processed-files log), and routes each row by vendor. Browser-only sources are scraped with **6 parallel headless Chrome download threads** (this pipeline calls them "workers," but they are plain threads — unrelated to the `VideoWorker` actors above) that recover the underlying video URL three ways — console-log sniffing, triggering playback, then reading Chrome's CDP network log — and download via direct HTTP or **yt-dlp** for HLS streams. Direct-link vendors run through **10 parallel HTTP download threads**. Everything is re-uploaded to S3 under per-vendor prefixes, and a **bulk-import CSV** is emitted for the platform.
 
 The pipeline is **fully resumable**: every processed video is appended to a results log, so an interrupted run picks up exactly where it left off without re-downloading or re-scraping.
 
@@ -164,15 +166,15 @@ The system is instrumented end-to-end. Logs fan out to **rotated local files and
 
 ### 1. In Video Processing, Memory Is the Architecture
 
-Almost every design decision — lazy worker creation, 20-job recycling, the 2 GB object-store cap, explicit reference deletion, `malloc_trim`, zombie-process reaping — exists to fight memory. A naive "load model, process video" loop dies in production within hours. The hard engineering wasn't the ML; it was keeping a long-running Python process alive under sustained load.
+Almost every design decision — lazy `VideoWorker` creation, recycling a `VideoWorker` every 3 videos, the 2 GB object-store cap, explicit reference deletion, `malloc_trim`, zombie-process reaping — exists to fight memory. A naive "load model, process video" loop dies in production within hours. The hard engineering wasn't the ML; it was keeping a long-running Python process alive under sustained load.
 
 ### 2. Amortize Expensive Loads, but Recycle Before They Rot
 
-Persistent worker actors that pre-load torch and YOLO once are dramatically faster than cold-starting per job. But a process that lives forever fragments its heap. Recycling workers on a fixed cadence captured the speedup of warm actors without the slow death of an immortal one.
+Persistent `VideoWorker` actors that pre-load torch and YOLO once are dramatically faster than cold-starting per job. But a process that lives forever fragments its heap. Recycling each `VideoWorker` on a fixed cadence (every 3 videos) captured the speedup of warm actors without the slow death of an immortal one.
 
 ### 3. Decouple Producers From the GPU
 
-Letting every worker touch the GPU directly is a recipe for contention and duplicated model loads. A shared inference actor fronted by a batch queue made GPU usage predictable, allowed the model to unload when idle, and put all post-processing in exactly one place.
+Letting every `VideoWorker` touch the GPU directly is a recipe for contention and duplicated model loads. A shared inference actor fronted by a batch queue made GPU usage predictable, allowed the model to unload when idle, and put all post-processing in exactly one place.
 
 ### 4. Plugins Turn Customers Into Config
 
