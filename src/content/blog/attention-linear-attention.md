@@ -1032,4 +1032,4 @@ The Why Replace Attention blog established the kernel framework: replace softmax
 
 *Previous: [Targeted Memory: The Delta Rule, Gated DeltaNet, and Kimi Delta Attention](/blog/attention-gated-deltanet)*
 
-*Next: [Mamba and Mamba-2: Selective State Spaces and Structured State Space Duality](/blog/attention-mamba)*
+*Next: [Mathematical Prerequisites for Mamba](/blog/math-prerequisites-for-mamba)*

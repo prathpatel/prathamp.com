@@ -425,3 +425,8 @@ We first established the associative-memory picture behind the delta rule: writi
 We then built five tools, each used in a follow-up post. The **Frobenius norm** $\|M\|_F^2 = \sum_{ij} M_{ij}^2$ measures matrix size and reduces to the squared Euclidean norm for vectors. The **reconstruction loss** $\mathcal{L}_t = \tfrac{1}{2}\|S^\top k_t - v_t\|^2$ measures how badly the memory misremembers a stored pair. **Matrix calculus** gave us $\frac{\partial \mathcal{L}_t}{\partial S} = k_t (S^\top k_t - v_t)^\top$ — a rank-1 outer product of the key and the error. **Online SGD** applied this gradient with step $\beta_t$ produces the **delta rule** $S_t = (I - \beta_t k_t k_t^\top) S_{t-1} + \beta_t k_t v_t^\top$, deriving the gated-deltanet update from the loss in three lines. Finally, the **chain rule for a gated identity path** decomposed the gradient of $y = (1 - g) x + g f(x)$ into identity, transformed, and gate-derivative pieces — the lens through which the gated-attention blog analyzes residual replacement.
 
 With these tools in hand, we are ready for [Targeted Memory: The Delta Rule, Gated DeltaNet, and Kimi Delta Attention](/blog/attention-gated-deltanet), where every linear-RNN variant becomes the closed-form solution to a different optimization problem, and [Gated Attention](/blog/attention-gated-attention), where the gradient flow through learned gates is traced through exactly the decomposition above.
+
+---
+
+*Previous: [DeepSeek Sparse Attention: Learned Token Selection from Scratch](/blog/attention-deepseek-sparse)*  
+*Next: [Gated Attention: Replacing Residuals and ReLU with Learned Gates](/blog/attention-gated-attention)*
