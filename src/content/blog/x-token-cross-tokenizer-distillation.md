@@ -472,3 +472,7 @@ The headline: cross-tokenizer KD, done right, **exceeds same-tokenizer KD** — 
 ## 16. Summary
 
 Standard distillation breaks across tokenizers because per-position KL assumes a shared segmentation that does not exist; X-Token restores it with **DP span alignment** (grouping tokens into chunks that decode to the same text), a **chain-rule merge** (collapsing each chunk's per-token softmaxes into one chunk-level distribution), and a **projection matrix $W$** (a probability-preserving operator mapping student-vocabulary mass into teacher space, built from canonicalized exact matches plus exponentially-decayed re-tokenization rules). On top of this shared machinery sit two complementary losses chosen by a one-time coverage audit: **P-KL** deletes GOLD's partition and projects the full student distribution through $W$ — the cure for the *suppressive gradient* we proved drives every uncommon (and often critical) token's probability to zero — while **H-KL** keeps the partition but expands the common set via $W$'s top-1 mapping, recovering sharper identity-aligned KL whenever the partition is already sound. Together with dynamic KD/CE rescaling and complementary-teacher multi-distillation, these let a 1B student learn from any-family teachers and beat same-tokenizer distillation outright.
+
+---
+
+*Previous: [DeepSeek-V4 Hybrid Attention: CSA and HCA from Scratch](/blog/deepseek-v4-csa-and-hca)*

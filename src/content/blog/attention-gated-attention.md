@@ -956,5 +956,5 @@ Gating replaces the fixed, unconditional operations in a transformer block — t
 
 ---
 
-*Previous: [DeepSeek Sparse Attention: Learned Token Selection from Scratch](/blog/attention-deepseek-sparse)*  
+*Previous: [Mathematical Prerequisites for the Delta Rule](/blog/math-prerequisites-for-delta-rule)*  
 *Next: [Why Replace Attention? The Softmax Bottleneck and the Path to Linear Time](/blog/attention-why-replace)*

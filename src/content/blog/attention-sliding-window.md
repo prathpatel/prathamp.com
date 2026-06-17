@@ -801,4 +801,5 @@ Longformer replaces full self-attention with a combination of sliding window att
 
 ---
 
-*Previous: [Why Full Attention Is Wasteful: Sparse Factorization from Scratch](/blog/attention-sparse-factorization)*
+*Previous: [Why Full Attention Is Wasteful: Sparse Factorization from Scratch](/blog/attention-sparse-factorization)*  
+*Next: [DeepSeek Sparse Attention: Learned Token Selection from Scratch](/blog/attention-deepseek-sparse)*

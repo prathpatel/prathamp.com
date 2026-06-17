@@ -672,3 +672,8 @@ Adding everything up, the paper reports single-token inference FLOPs at $1M$ con
 ## 13. Summary
 
 DeepSeek-V4's long-context efficiency reduces to one equation applied twice: compress $m$ consecutive tokens into one $c$-dimensional entry via a learned per-coordinate softmax, and then either attend sparsely over the compressed stream (CSA, with an overlap-and-index twist) or densely over an even more compressed stream (HCA). Trading the $n \times d$ raw KV cache for an $(n/m) \times c$ or $(n/m') \times c$ compressed cache is what turns $10^6$-token contexts from a $250$ GB infeasibility into a $25$ GB routine.
+
+---
+
+*Previous: [Prefill-as-a-Service: How KVCache Goes Cross-Datacenter](/blog/prefill-as-a-service-cross-datacenter-kvcache)*  
+*Next: [X-Token: Cross-Tokenizer Knowledge Distillation from Scratch](/blog/x-token-cross-tokenizer-distillation)*

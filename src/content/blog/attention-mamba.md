@@ -978,4 +978,5 @@ State space models process sequences through a latent state governed by a linear
 
 ---
 
-*Previous: [The Kernel Zoo: Performers, Fast Weight Programmers, and the Capacity-Approximation Tradeoff in Linear Attention](/blog/attention-linear-attention)*
+*Previous: [Mathematical Prerequisites for Mamba](/blog/math-prerequisites-for-mamba)*  
+*Next: [The Efficient Transformer Design Space: Comparing All Variants and the Three Futures of Attention](/blog/attention-survey-design-space-and-future)*

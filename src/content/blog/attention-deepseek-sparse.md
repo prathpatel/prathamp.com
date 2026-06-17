@@ -686,4 +686,4 @@ DeepSeek Sparse Attention replaces the fixed connectivity rules of previous spar
 ---
 
 *Previous: [Sliding Window Attention: From Local Windows to Global Context](/blog/attention-sliding-window)*  
-*Next: [Gated Attention: Replacing Residuals and ReLU with Learned Gates](/blog/attention-gated-attention)*
+*Next: [Mathematical Prerequisites for the Delta Rule](/blog/math-prerequisites-for-delta-rule)*
