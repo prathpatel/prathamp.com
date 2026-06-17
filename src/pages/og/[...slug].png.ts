@@ -21,7 +21,7 @@ const colors = {
 
 type OgProps = {
   title: string;
-  type: "Portfolio" | "Blog" | "Project" | "Note";
+  type: "Portfolio" | "Blog" | "Project" | "Note" | "About" | "Contact";
   description?: string;
   metaItems?: string[];
 };
@@ -232,6 +232,24 @@ export const getStaticPaths: GetStaticPaths = async () => {
         type: "Note" as const,
         description: "Quick notes, TILs, and things I'm learning. Less polished, more frequent.",
         metaItems: ["notes"],
+      },
+    },
+    {
+      params: { slug: "about" },
+      props: {
+        title: "About",
+        type: "About" as const,
+        description: "Learn more about me and my journey as a developer.",
+        metaItems: ["about"],
+      },
+    },
+    {
+      params: { slug: "contact" },
+      props: {
+        title: "Contact",
+        type: "Contact" as const,
+        description: "Get in touch with me.",
+        metaItems: ["contact"],
       },
     },
   ];
