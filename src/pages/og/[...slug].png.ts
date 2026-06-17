@@ -206,6 +206,36 @@ export const getStaticPaths: GetStaticPaths = async () => {
     },
   }));
 
+  const sectionPaths = [
+    {
+      params: { slug: "blog" },
+      props: {
+        title: "Writing",
+        type: "Blog" as const,
+        description: "Breaking down research papers, deriving ideas from scratch, and making complex topics intuitive.",
+        metaItems: ["blog"],
+      },
+    },
+    {
+      params: { slug: "projects" },
+      props: {
+        title: "Projects",
+        type: "Project" as const,
+        description: "A collection of projects I've built. Each one taught me something new.",
+        metaItems: ["projects"],
+      },
+    },
+    {
+      params: { slug: "notes" },
+      props: {
+        title: "Notes",
+        type: "Note" as const,
+        description: "Quick notes, TILs, and things I'm learning. Less polished, more frequent.",
+        metaItems: ["notes"],
+      },
+    },
+  ];
+
   return [
     {
       params: { slug: "default" },
@@ -216,6 +246,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         metaItems: ["data scientist", "machine learning", "technical writing"],
       },
     },
+    ...sectionPaths,
     ...blogPaths,
     ...projectPaths,
     ...notePaths,
