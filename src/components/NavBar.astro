@@ -5,13 +5,13 @@ import { isNavItemActive } from "../utils/isNavItemActive";
 const currentPath = Astro.url.pathname;
 ---
 
-<nav class="hidden md:flex items-center gap-6">
+<nav class="hidden md:flex items-center gap-8">
   {
     siteConfig.nav.map((item) => (
       <a
         href={item.href}
         class:list={[
-          "font-mono text-xs uppercase tracking-widest transition-colors",
+          "text-sm font-medium transition-colors",
           isNavItemActive(currentPath, item.href)
             ? "text-primary-600 dark:text-primary-400"
             : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100",

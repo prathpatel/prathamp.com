@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { formatDate } from "../../utils/formatDate";
+import NoteCard from "../../components/NoteCard.astro";
 import { getCollection } from "astro:content";
 
 const notes = (await getCollection("notes", ({ data }) => !data.draft))
@@ -10,28 +10,25 @@ const notes = (await getCollection("notes", ({ data }) => !data.draft))
 const topics = [...new Set(notes.map((n) => n.data.topic).filter(Boolean))];
 ---
 
-<BaseLayout title="Notes" description="Short-form notes and learning updates." image="/og/notes.png">
-  <section class="max-w-6xl mx-auto px-4 pt-16 md:pt-24 pb-16">
-    <p class="font-mono text-sm text-primary-600 dark:text-primary-400 mb-4">(03) — notes</p>
-    <h1 class="font-display font-bold uppercase tracking-tighter leading-none text-gray-900 dark:text-white text-5xl md:text-8xl mb-6">
-      Notes<span class="text-primary-600 dark:text-primary-400">.</span>
-    </h1>
-    <p class="text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-2xl">
+<BaseLayout title="Notes" description="Short-form notes and learning updates.">
+  <section class="max-w-4xl mx-auto px-4 py-16">
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Notes</h1>
+    <p class="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl">
       Quick notes, TILs, and things I'm learning. Less polished, more frequent.
     </p>
 
     {topics.length > 0 && (
-      <div class="flex flex-wrap gap-2 mb-12" id="topic-filters">
+      <div class="flex flex-wrap gap-2 mb-8" id="topic-filters">
         <button
           data-topic="all"
-          class="topic-btn px-3 py-1.5 font-mono text-xs uppercase tracking-widest border rounded-full transition-colors bg-gray-900 text-white border-gray-900 dark:bg-white dark:text-gray-900 dark:border-white"
+          class="topic-btn px-3 py-1 text-sm font-medium rounded-full transition-colors bg-primary-600 text-white"
         >
           All
         </button>
         {topics.map((topic) => (
           <button
             data-topic={topic}
-            class="topic-btn px-3 py-1.5 font-mono text-xs uppercase tracking-widest border rounded-full transition-colors text-gray-600 border-gray-300 dark:text-gray-400 dark:border-gray-700 hover:border-gray-900 hover:text-gray-900 dark:hover:border-white dark:hover:text-white"
+            class="topic-btn px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm font-medium rounded-full transition-colors hover:bg-primary-200 dark:hover:bg-primary-800"
           >
             {topic}
           </button>
@@ -39,36 +36,15 @@ const topics = [...new Set(notes.map((n) => n.data.topic).filter(Boolean))];
       </div>
     )}
 
-    <div class="border-t-2 border-gray-900 dark:border-gray-100" id="notes-grid">
+    <div class="grid gap-4" id="notes-grid">
       {notes.map((note) => (
         <div class="note-item" data-topic={note.data.topic || ""}>
-          <a
-            href={`/notes/${note.slug}`}
-            class="group grid grid-cols-[1fr_auto] md:grid-cols-12 items-baseline gap-x-4 gap-y-1.5 py-5 border-b border-gray-200 dark:border-gray-800 transition-colors"
-          >
-            <time
-              datetime={note.data.date.toISOString()}
-              class="order-last md:order-none col-span-2 md:col-span-2 font-mono text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
-            >
-              {formatDate(note.data.date)}
-            </time>
-            <h3 class="min-w-0 md:col-span-7 font-display text-lg md:text-xl font-medium tracking-tight text-gray-900 dark:text-white transition-all duration-300 group-hover:translate-x-2 group-hover:text-primary-600 dark:group-hover:text-primary-400">
-              {note.data.title}
-            </h3>
-            <span class="hidden md:block md:col-span-2 text-right font-mono text-xs lowercase tracking-wide text-gray-500 dark:text-gray-400">
-              {note.data.topic}
-            </span>
-            <svg
-              class="md:col-span-1 justify-self-end w-5 h-5 shrink-0 self-center md:self-auto text-gray-300 dark:text-gray-700 transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400 group-hover:translate-x-1 group-hover:-translate-y-1"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
-            </svg>
-          </a>
+          <NoteCard
+            title={note.data.title}
+            date={note.data.date}
+            slug={note.slug}
+            topic={note.data.topic}
+          />
         </div>
       ))}
     </div>
@@ -86,17 +62,14 @@ const topics = [...new Set(notes.map((n) => n.data.topic).filter(Boolean))];
     const buttons = document.querySelectorAll('.topic-btn');
     const noteItems = document.querySelectorAll('.note-item');
 
-    const activeClasses = ['bg-gray-900', 'text-white', 'border-gray-900', 'dark:bg-white', 'dark:text-gray-900', 'dark:border-white'];
-    const inactiveClasses = ['text-gray-600', 'border-gray-300', 'dark:text-gray-400', 'dark:border-gray-700', 'hover:border-gray-900', 'hover:text-gray-900', 'dark:hover:border-white', 'dark:hover:text-white'];
-
     function applyFilter(topic: string) {
       // Update button styles
       buttons.forEach(b => {
-        b.classList.remove(...activeClasses);
-        b.classList.add(...inactiveClasses);
+        b.classList.remove('bg-primary-600', 'text-white');
+        b.classList.add('bg-primary-100', 'dark:bg-primary-900', 'text-primary-700', 'dark:text-primary-300');
         if (b.getAttribute('data-topic') === topic) {
-          b.classList.remove(...inactiveClasses);
-          b.classList.add(...activeClasses);
+          b.classList.remove('bg-primary-100', 'dark:bg-primary-900', 'text-primary-700', 'dark:text-primary-300');
+          b.classList.add('bg-primary-600', 'text-white');
         }
       });
 

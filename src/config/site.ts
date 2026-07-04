@@ -5,7 +5,7 @@ export const siteConfig = {
   url: "https://prathamp.com",
   author: {
     name: "Pratham Patel",
-    email: "prathpat@proton.me",
+    email: "prathammpatel@outlook.com",
     twitter: "theprath",
     github: "prthmptl",
     linkedin: "prthmptl",
