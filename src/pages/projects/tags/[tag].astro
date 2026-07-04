@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import ProjectRow from "../../../components/ProjectRow.astro";
+import ProjectCard from "../../../components/ProjectCard.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -23,28 +23,28 @@ const sortedProjects = projects.sort((a, b) => a.data.title.localeCompare(b.data
 ---
 
 <BaseLayout title={`Projects using "${tag}"`} description={`All projects using ${tag}`}>
-  <section class="max-w-6xl mx-auto px-4 pt-16 md:pt-24 pb-16">
+  <section class="max-w-6xl mx-auto px-4 py-16">
     <div class="mb-8">
-      <a href="/projects" class="font-mono text-xs uppercase tracking-widest text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-        &larr; all projects
+      <a href="/projects" class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium">
+        &larr; All projects
       </a>
     </div>
-    <p class="font-mono text-sm text-primary-600 dark:text-primary-400 mb-4">— built with</p>
-    <h1 class="font-display font-bold uppercase tracking-tighter leading-none text-gray-900 dark:text-white text-4xl md:text-7xl mb-6 break-words">
-      {tag}<span class="text-primary-600 dark:text-primary-400">.</span>
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+      Projects using <span class="text-primary-600 dark:text-primary-400">"{tag}"</span>
     </h1>
-    <p class="font-mono text-sm text-gray-500 dark:text-gray-400 mb-12">
+    <p class="text-xl text-gray-600 dark:text-gray-400 mb-12">
       {sortedProjects.length} project{sortedProjects.length !== 1 ? "s" : ""} found
     </p>
 
-    <div class="border-t-2 border-gray-900 dark:border-gray-100">
-      {sortedProjects.map((project, i) => (
-        <ProjectRow
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {sortedProjects.map((project) => (
+        <ProjectCard
           title={project.data.title}
           description={project.data.description}
           tech={project.data.tech}
           slug={project.slug}
-          index={String(i + 1).padStart(2, "0")}
+          featured={project.data.featured}
+          image={project.data.image}
         />
       ))}
     </div>

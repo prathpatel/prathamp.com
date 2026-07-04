@@ -8,34 +8,31 @@ interface Props {
     date: Date;
     topic?: string;
   };
-  slug: string;
 }
 
-const { frontmatter, slug } = Astro.props;
-const ogImage = `/og/notes/${slug}.png`;
+const { frontmatter } = Astro.props;
 ---
 
 <BaseLayout
   title={frontmatter.title}
-  image={ogImage}
   type="article"
   showScrollProgress={true}
   publishedTime={frontmatter.date}
   tags={frontmatter.topic ? [frontmatter.topic] : undefined}
 >
   <article class="max-w-3xl mx-auto px-4 py-16">
-    <header class="mb-10 pb-8 border-b-2 border-gray-900 dark:border-gray-100">
-      <div class="flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-5">
+    <header class="mb-8">
+      <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
         <time datetime={frontmatter.date.toISOString()}>
           {formatDate(frontmatter.date)}
         </time>
         {
           frontmatter.topic && (
             <>
-              <span aria-hidden="true">&middot;</span>
+              <span>&middot;</span>
               <a
                 href={`/notes?topic=${encodeURIComponent(frontmatter.topic)}`}
-                class="text-primary-600 dark:text-primary-400 hover:underline underline-offset-4"
+                class="text-primary-600 dark:text-primary-400 hover:underline"
               >
                 {frontmatter.topic}
               </a>
@@ -43,7 +40,7 @@ const ogImage = `/og/notes/${slug}.png`;
           )
         }
       </div>
-      <h1 class="font-display text-3xl md:text-5xl font-bold tracking-tighter text-gray-900 dark:text-white">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
         {frontmatter.title}
       </h1>
     </header>
